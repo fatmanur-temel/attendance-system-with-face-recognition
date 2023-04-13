@@ -4,7 +4,7 @@
     font-family: 'Poppins', sans-serif;
 }
 .wrapper{
-    background-image: url("images/back.png");
+    background-image: url("/web/images/back.png");
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -26,7 +26,7 @@
     
 }
 .side-image{
-    background-image: url("images/login.png");
+    background-image: url("/web/images/login.png");
     background-position: left center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -95,7 +95,7 @@
 }
 .submit{
     padding:.7rem 7rem;
-    border: 1px solid black;
+    border: 1px solid #00406c;
     text-decoration: none;
     outline: none;
     height: 45px;
@@ -107,7 +107,7 @@
 
 }
 .submit:hover{
-    background: rgba(37, 95, 156,0.9);
+    background: #00406c;
     color: #fff;
     /* text-decoration: underline; */
 }
