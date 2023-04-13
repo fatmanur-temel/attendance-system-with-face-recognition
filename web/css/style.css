@@ -1,33 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap');
+
+body, *{
+    margin: 0 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
 .navbar {
     overflow: hidden;
-    position: fixed; 
+    position: fixed;
     top: 0;
-    left: 0; 
+    left: 0;
     width: 100%;
     height: 90px;
     z-index: 500;
-    background-color: rgba(255,255,255,0.95);
-    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05), inset 0 -1px 0 rgba(0,0,0,0.15);
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0px 1px 8px 0px #0B2B4080, inset 0 -1px 0 #0B2B4080;
 }
 
-.navbar .logo img{
+.navbar .logo img {
     width: auto;
-    height: 70px;
-    padding-left: 60px;
+    height: 87px;
+    padding-left: 85px;
     padding-top: 20px;
 }
 
-.navbar .logout{
+.navbar .logout {
     position: absolute;
     right: 0px;
     top: 0px;
 }
 
-.navbar .logout img{
-    height: 1.7rem;
-    width: auto;
-    padding-right: 40px;
-    padding-top: 25px;
+.navbar .logout img {
+    height: auto;
+    width: 1.7rem;
+    margin: 25px 40px;
 }
 
 .sidenav {
@@ -35,18 +42,22 @@
     width: 300px;
     position: fixed;
     z-index: 1;
-    top: 120px;
+    top: 92px;
     left: 0;
     background-color: rgba(255, 255, 255, 0.95);
     overflow-x: hidden;
-    padding-top: 20px;
-    border-right: 1px solid rgba(0,0,0,0.1);
-    box-shadow: inset 0 -1px 0 rgba(0,0,0,0.15);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.sidenav .menu {
+    margin-top: 50%;
 }
 
 .sidenav a {
-    padding: 16px 0;
+    padding: 8% 0;
     text-decoration: none;
+    text-align: center;
     font-size: 25px;
     color: #00406c;
     display: block;
@@ -54,19 +65,84 @@
 
 .sidenav a:hover {
     color: #f1f1f1;
-    background-color: #00406c;
+    background-color: #0B2B40;
 }
 
-.sidenav a span{
-    padding-left: 60px;
+.main-page {
+    background-color: #d7d8db96;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
 }
 
-.main {
-    margin-left: 160px;
-    /* Same as the width of the sidenav */
-    font-size: 28px;
-    /* Increased text to enable scrolling */
-    padding: 0px 10px;
+.main-page .content {
+    width: 70%;
+    height: 70%;
+    background-color: #fff;
+    position: relative;
+    top: calc(50% - 35% + 45px);
+    left: calc(50% - 35% + 146px);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 1px #164773;
+}
+
+.content .header {
+    background-color: #164773;
+    width: 100%;
+    height: 150px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+    display: grid;
+    align-content: center;
+}
+
+.content .header span{
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 5px;
+}
+
+.content .information {
+    display: grid;
+    grid-template-columns: 0.6fr 1.4fr;
+    grid-template-rows: 1fr;
+    grid-auto-flow: row;
+    justify-content: start;
+    align-content: space-evenly;
+    justify-items: start;
+    align-items: stretch;
+}
+
+.content .information .user-image{
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+
+.content .information .user-image img{
+    width: 150px;
+    height: 150px;
+    background-color: #a1c0e9;
+    border-radius: 15px;
+    margin-top: -45px;
+    margin-left: -60px;
+}
+
+.content .information .user-info{
+    width: 100%;
+}
+
+.content .information .user-info table{
+    width: 97%;
+    margin-top: 40px;
+}
+
+.user-info table td{
+    padding: 35px 0 5px 30px;
+    color: #424242;
+    border-bottom: 1px solid #a1c0e9;
 }
 
 @media screen and (max-height: 450px) {
