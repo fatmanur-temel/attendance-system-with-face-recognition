@@ -6,7 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- Bootsrtap icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+
+    <!-- custom css -->
     <link rel="stylesheet" href="css/style.css">
+
 
     <title>KTÜ Yoklama Sistemi</title>
 </head>
@@ -20,21 +27,45 @@
             <img src="images/logout.png" alt="Logout icon">
         </a>
     </div>
-    <div class="sidenav">
-        <div class="menu">
-            <a href="#">
-                <span>1. Sınıf</span>
+    <div class="sidebar">
+        <ul>
+          <li>
+            <a href="#" id="class1" class="menu-btn">1. Sınıf
+                <span class="bi bi-chevron-right icon"></span>
             </a>
-            <a href="#">
-                <span>2. Sınıf</span>
+              <ul class="menu-show">
+                <li><a href="#">Ders 1</a></li>
+                <li><a href="#">Ders 2</a></li>
+              </ul>
+          </li>
+          <li>
+            <a href="#" id="class2" class="menu-btn">2. Sınıf
+              <span class="bi bi-chevron-right icon"></span>
             </a>
-            <a href="#">
-                <span>3. Sınıf</span>
-            </a>
-            <a href="#">
-                <span>4. Sınıf</span>
-            </a>
-        </div>
+            <ul class="menu-show">
+              <li><a href="#">Ders 1</a></li>
+              <li><a href="#">Ders 2</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" id="class3" class="menu-btn">3. Sınıf
+                <span class="bi bi-chevron-right icon"></span>
+              </a>
+              <ul class="menu-show">
+                <li><a href="#">Ders 1</a></li>
+                <li><a href="#">Ders 2</a></li>
+              </ul>
+          </li>
+          <li>
+            <a href="#" id="class4" class="menu-btn">4. Sınıf
+                <span class="bi bi-chevron-right icon"></span>
+              </a>
+              <ul class="menu-show">
+                <li><a href="#">Ders 1</a></li>
+                <li><a href="#">Ders 2</a></li>
+              </ul>
+          </li>
+        </ul>
     </div>
     <div class="main-page">
         <div class="content">
@@ -43,7 +74,7 @@
             </div>
             <div class="information">
                 <div class="user-image">
-                    <img src="" alt="">
+                    <img src="images/profil.png" alt="profil">
                 </div>
                 <div class="user-info">
                     <table>
@@ -71,5 +102,7 @@
         </div>
     </div>
 </body>
+
+<script src="js/utils.js"></script>
 
 </html>
