@@ -34,7 +34,7 @@
                 <span class="bi bi-chevron-right icon"></span>
             </a>
               <ul class="menu-show">
-                <li><a href="course.html">Ders 1</a></li>
+                <li><a href="#">Ders 1</a></li>
                 <li><a href="#">Ders 2</a></li>
               </ul>
           </li>
@@ -67,42 +67,61 @@
           </li>
         </ul>
     </div>
+
     <div class="main-page">
-        <div class="content">
-            <div class="header">
-                <span>KTÜ Yoklama Sistemine Hoşgeldiniz</span>
+      <div class="title">
+        <h1>
+          <i class="bi bi-collection-fill"></i>
+          <span>Ders 1</span>
+        </h1>
+      </div>
+      <div class="container-box">
+        <div class="row">
+          <div class="graph col-5">
+            <div class="graph-title">
+              <h5>Yoklma İstatistiği</h5>
             </div>
-            <div class="information">
-                <div class="user-image">
-                    <img src="images/profil.png" alt="profil">
+            <div>
+              <canvas id="canvas" width="500" height="350">
+                Tarayıcı desteklemiyor.
+              </canvas>
+              </div>
+          </div>
+          <div class="spacer col-2"></div>
+          <div class="calendar-box col-5">
+            <!-- <div>
+              <h5>Takvim</h5>
+            </div> -->
+            <div class="calendar">
+              <div class="month">
+                <div class="date">
+                  <h1></h1>
+                  <p></p>
                 </div>
-                <div class="user-info">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>Ad Soyad</td>
-                                <td>Kullanıcı Adı</td>
-                            </tr>
-                            <tr>
-                                <td>Tc Kimlik No</td>
-                                <td>12345678912</td>
-                            </tr>
-                            <tr>
-                                <td>Fakülte</td>
-                                <td>Mühendislik Fakültesi</td>
-                            </tr>
-                            <tr>
-                                <td>Bölüm</td>
-                                <td>Bilgisayar Mühendisliği</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+              </div>
+              <div class="weekdays">
+                <div>Pt</div>
+                <div>Sa</div>
+                <div>Ça</div>
+                <div>Pe</div>
+                <div>Cu</div>
+                <div>Ct</div>
+                <div>Pa</div>
+              </div>
+              <div class="days"></div>
             </div>
+          </div>
         </div>
+      </div>
+      <div class="button">
+        <a href="#" class="btn"> Tüm Yoklama Listesi</a>
+      </div>
     </div>
+
+    <div class="footer"></div>
 </body>
 
 <script src="js/utils.js"></script>
+<script src="js/jquery-3.4.1.min.js"></script>
 
 </html>
