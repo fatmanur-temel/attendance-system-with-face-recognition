@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- Bootsrtap icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+
+    <!-- custom css -->
+    <link rel="stylesheet" href="css/style.css">
+
+
+    <title>KTÜ Yoklama Sistemi</title>
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="logo">
+        </a>
+        <a href="login.html" class="logout">
+            <img src="images/logout.png" alt="Logout icon">
+        </a>
+    </div>
+    <div class="sidebar">
+        <ul>
+            <li>
+                <a href="#" id="class1" class="menu-btn">1. Sınıf
+                    <span class="bi bi-chevron-right icon"></span>
+                </a>
+                <ul class="menu-show">
+                    <li><a href="course.html">Ders 1</a></li>
+                    <li><a href="#">Ders 2</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" id="class2" class="menu-btn">2. Sınıf
+                    <span class="bi bi-chevron-right icon"></span>
+                </a>
+                <ul class="menu-show">
+                    <li><a href="#">Ders 1</a></li>
+                    <li><a href="#">Ders 2</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" id="class3" class="menu-btn">3. Sınıf
+                    <span class="bi bi-chevron-right icon"></span>
+                </a>
+                <ul class="menu-show">
+                    <li><a href="#">Ders 1</a></li>
+                    <li><a href="#">Ders 2</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" id="class4" class="menu-btn">4. Sınıf
+                    <span class="bi bi-chevron-right icon"></span>
+                </a>
+                <ul class="menu-show">
+                    <li><a href="#">Ders 1</a></li>
+                    <li><a href="#">Ders 2</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-page">
+        <div class="title">
+            <h1>
+                <span><a href="course.html"><i class="bi bi-arrow-left-square-fill"></i></a> Ders 1</span>
+            </h1>
+        </div>
+        <div class="container-box">
+            <div class="table-box">
+                <div id="BtnContainer" class="BtnContainer">
+                </div>
+                <table id="myTable">
+                    <tr>
+                        <th onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" class="table-head">
+                            Numara
+                            <span>
+                                <i class="bi bi-caret-up-fill"></i>
+                                <i class="bi bi-caret-down-fill"></i>
+                            </span>
+                        </th>
+                        <th onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" class="table-head">
+                            Ad
+                            <span>
+                                <i class="bi bi-caret-up-fill"></i>
+                                <i class="bi bi-caret-down-fill"></i>
+                            </span>
+                        </th>
+                        <th onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" class="table-head">
+                            Soyad
+                            <span>
+                                <i class="bi bi-caret-up-fill"></i>
+                                <i class="bi bi-caret-down-fill"></i>
+                            </span>
+                        </th>
+                        <th onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" class="table-head">
+                            Devamsızlık Sayısı
+                            <span>
+                                <i class="bi bi-caret-up-fill"></i>
+                                <i class="bi bi-caret-down-fill"></i>
+                            </span>
+                        </th>
+                    </tr>
+                    <tr class="item  gelenler">
+                        <td>123456</td>
+                        <td>Berglunds</td>
+                        <td>Sweden</td>
+                        <td>0</i></td>
+                    </tr>
+                    <tr class="item  gelenler">
+                        <td>125489</td>
+                        <td>North/South</td>
+                        <td>UK</td>
+                        <td>5</td>
+                    </tr>
+                    <tr class="item  gelmeyenler">
+                        <td>125846</td>
+                        <td>Alfreds</td>
+                        <td>Germany</td>
+                        <td>4</td>
+                    </tr>
+                    <tr class="item  gelenler">
+                        <td>453689</td>
+                        <td>Königlich</td>
+                        <td>Germany</td>
+                        <td>4</td>
+                    </tr>
+                    <tr class="item  gelmeyenler">
+                        <td>5678412</td>
+                        <td>Magazzini</td>
+                        <td>Italy</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="item  gelmeyenler">
+                        <td>456987</td>
+                        <td>Paris</td>
+                        <td>France</td>
+                        <td>1</td>
+                    </tr>
+                    <tr class="item  gelenler">
+                        <td>568741</td>
+                        <td>Island</td>
+                        <td>UK</td>
+                        <td>3</i></td>
+                    </tr>
+                    <tr class="item  gelenler">
+                        <td>365874</td>
+                        <td>Winecellars</td>
+                        <td>Canada</td>
+                        <td>1</i></td>
+                    </tr>
+                    <tr class="count">
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer"></div>
+</body>
+
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="https://www.w3schools.com/lib/w3.js"></script>
+<script type="text/javascript" src="js/utils.js"></script>
+<script src="js/detail.js"></script>
+
+<script>
+    const fullDate = document.querySelector(".full-date");
+    const options = {year: 'numeric', month: 'long', day: 'numeric' };
+    fullDate.innerText = new Date().toLocaleDateString('tr-TR', options);
+</script>
+
+</html>

@@ -424,11 +424,10 @@ body,
     border-bottom: 1px solid #ddd;
     font-size: 20px;
     width: 25%;
-    cursor: pointer;
 }
 
-.table-box table th:last-child{
-    cursor: auto;
+.table-box table .table-head{
+    cursor: pointer;
 }
 
 .table-box table td{
@@ -439,7 +438,7 @@ body,
 .table-box table .count td{
     padding-top: 40px;
     border-bottom: none;
-    color: rgb(104, 157, 255);
+    color: #164773;
     font-weight: 600;
 }
 
@@ -494,28 +493,29 @@ body,
 .BtnContainer .filter-btn {
   border: none;
   outline: none;
-  padding: 12px 16px;
+  padding: 10px;
   background-color: #fff;
   cursor: pointer;
-  color: #7a7a7a;
-  border: 2px solid #7a7a7a;
+  color: #999999;
+  border: 2px solid #999999;
   border-radius: 8px;
   letter-spacing: 1px;
+  font-weight: 600;
 }
   
 .BtnContainer .filter-btn:hover {
-  color: #272727;
-  border: 2px solid #272727;
+  color: #686868;
+  border: 2px solid #686868;
 }
 
 .BtnContainer .filter-btn.active.blue{
-    color: blue;
-    border: 2px solid blue;
+    color: rgb(2, 2, 211);
+    border: 2px solid rgb(2, 2, 211);
 }
 
 .BtnContainer .filter-btn.active.green{
-    color: rgb(27, 155, 27);
-    border: 2px solid rgb(27, 155, 27);
+    color: rgb(0, 175, 0);
+    border: 2px solid rgb(0, 175, 0);
 }
 
 .BtnContainer .filter-btn.active.red{
