@@ -4,7 +4,7 @@
     font-family: 'Poppins', sans-serif;
 }
 .wrapper{
-    background-image: url("/web/images/back.png");
+    background-image: url(../images//back.png);
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -26,7 +26,7 @@
     
 }
 .side-image{
-    background-image: url("/web/images/login.png");
+    background-image: url(../images/login.png);
     background-position: left center;
     background-size: cover;
     background-repeat: no-repeat;
