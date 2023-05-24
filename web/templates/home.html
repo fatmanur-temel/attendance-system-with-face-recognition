@@ -24,7 +24,7 @@
         <a href="/" class="logo">
             <img src="{{ url_for('static',filename='/../images/logo.png')}}" alt="logo">
         </a>
-        {% if me %}
+        {% if teacher %}
         <a href="/logout" class="logout">
             <img src="{{ url_for('static',filename='/../images/logout.png')}}" alt="Logout icon">
         </a>
@@ -77,26 +77,30 @@
             </div>
             <div class="information">
                 <div class="user-image">
-                    <img src="images/profil.png" alt="profil">
+                    <img src="{{ photo }}" alt="profil">
                 </div>
                 <div class="user-info">
                     <table>
                         <tbody>
                             <tr>
                                 <td>Ad Soyad</td>
-                                <td>Kullanıcı Adı</td>
+                                <td>{{ name }} {{ surname }}</td>
                             </tr>
                             <tr>
-                                <td>Tc Kimlik No</td>
-                                <td>12345678912</td>
+                                <td>E-mail</td>
+                                <td>{{ email }}</td>
+                            </tr>
+                            <tr>
+                                <td>Telefon</td>
+                                <td>{{ tel }}</td>
                             </tr>
                             <tr>
                                 <td>Fakülte</td>
-                                <td>Mühendislik Fakültesi</td>
+                                <td>{{ faculty }}</td>
                             </tr>
                             <tr>
                                 <td>Bölüm</td>
-                                <td>Bilgisayar Mühendisliği</td>
+                                <td>{{ department }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -106,6 +110,6 @@
     </div>
 </body>
 
-<script src="js/utils.js"></script>
+<script src="{{ url_for('static',filename='/../js/utils.js')}}"></script>
 
 </html>

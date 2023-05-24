@@ -120,9 +120,9 @@ function changeMonth(p) {
     
     for (let i = 1; i <= lastDay; i++) {
       if (i === new Date().getDate()) {
-        days += `<div class="today"><a href="calendar_detail.html">${i}</a></div>`;
+        days += `<div class="today"><a href="/calendar_detail">${i}</a></div>`;
       } else {
-        days += `<div><a href="calendar_detail.html">${i}</a></div>`;
+        days += `<div><a href="/calendar_detail">${i}</a></div>`;
       }
     }
     daysEl.innerHTML = days;
@@ -142,7 +142,7 @@ function changeMonth(p) {
     console.log(new Date(new Date().getFullYear(), monthInx + 1, 0));
     
     for (let i = 1; i <= lastDay; i++) {
-      days += `<div><a href="calendar_detail.html">${i}</a></div>`;
+      days += `<div><a href="/calendar_detail">${i}</a></div>`;
     }
     daysEl.innerHTML = days;
   }
@@ -160,7 +160,7 @@ function changeMonth(p) {
     }
     console.log(new Date(new Date().getFullYear(), monthInx + 1, 0));
     for (let i = 1; i <= lastDay; i++) {
-      days += `<div><a href="calendar_detail.html">${i}</a></div>`;
+      days += `<div><a href="/calendar_detail">${i}</a></div>`;
     }
     daysEl.innerHTML = days;
   }

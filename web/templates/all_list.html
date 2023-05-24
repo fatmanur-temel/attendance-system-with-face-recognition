@@ -24,7 +24,7 @@
         <a href="/" class="logo">
             <img src="{{ url_for('static',filename='/../images/logo.png')}}" alt="logo">
         </a>
-        {% if me %}
+        {% if teacher %}
         <a href="/logout" class="logout">
             <img src="{{ url_for('static',filename='/../images/logout.png')}}" alt="Logout icon">
         </a>
@@ -171,10 +171,10 @@
     <div class="footer"></div>
 </body>
 
-<script src="js/jquery-3.4.1.min.js"></script>
+<script src="{{ url_for('static',filename='/../js/jquery-3.4.1.min.js')}}"></script>
 <script src="https://www.w3schools.com/lib/w3.js"></script>
-<script type="text/javascript" src="js/utils.js"></script>
-<script src="js/detail.js"></script>
+<script src="{{ url_for('static',filename='/../js/utils.js')}}"></script>
+<script src="{{ url_for('static',filename='/../js/detail.js')}}"></script>
 
 <script>
     const fullDate = document.querySelector(".full-date");

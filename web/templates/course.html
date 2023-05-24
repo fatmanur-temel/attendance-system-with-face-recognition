@@ -24,7 +24,7 @@
     <a href="/" class="logo">
         <img src="{{ url_for('static',filename='/../images/logo.png')}}" alt="logo">
     </a>
-    {% if me %}
+    {% if teacher %}
     <a href="/logout" class="logout">
         <img src="{{ url_for('static',filename='/../images/logout.png')}}" alt="Logout icon">
     </a>
@@ -122,8 +122,8 @@
   <div class="footer"></div>
 </body>
 
-<script src="js/utils.js"></script>
-<script src="js/courses.js"></script>
-<script src="js/jquery-3.4.1.min.js"></script>
+<script src="{{ url_for('static',filename='/../js/jquery-3.4.1.min.js')}}"></script>
+<script src="{{ url_for('static',filename='/../js/utils.js')}}"></script>
+<script src="{{ url_for('static',filename='/../js/courses.js')}}"></script>
 
 </html>
