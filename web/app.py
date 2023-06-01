@@ -20,17 +20,20 @@ class Teacher(db.Model):
     faculty = db.Column(db.String)
     department = db.Column(db.String)
     photo = db.Column(db.String)
+    courses = db.relationship('Lesson', backref='teacher', lazy=True)
+
+class Lesson(db.Model):
+    __tablename__ = 'lesson'
+    id = db.Column(db.Integer, primary_key=True)
+    lesson_name = db.Column(db.String)
+    period = db.Column(db.Integer)
+    teacher_id = db.Column(db.Integer, db.ForeignKey('teacher.id'))
 
 
-@app.route("/")
-def home():
-    if 'nick' in session:
-        nick = session['nick'] 
-        teacher = Teacher.query.filter_by(nick=nick).first()
-        return render_template("home.html", teacher=teacher, 
-                               name=teacher.name, surname=teacher.surname, email=teacher.email, tel=teacher.tel, faculty=teacher.faculty, department=teacher.department, photo=teacher.photo)
 
-    return redirect(url_for('home'))
+@app.route('/')
+def root():
+    return redirect(url_for('login'))
 
 
 @app.route("/login", methods = ["GET", "POST"])
@@ -58,6 +61,23 @@ def login():
     
     return render_template("login.html")
 
+@app.route("/home")
+def home():
+    if 'nick' in session:
+        nick = session['nick'] 
+        teacher = Teacher.query.filter_by(nick=nick).first()
+        teacher_id = teacher.id
+        teachers_lessons = db.session.query(Lesson.lesson_name, Lesson.period).join(Teacher).filter(Lesson.teacher_id == teacher_id).all()
+        
+
+        return render_template("home.html", teacher=teacher, 
+                               name=teacher.name, surname=teacher.surname, email=teacher.email, tel=teacher.tel, 
+                               faculty=teacher.faculty, department=teacher.department, photo=teacher.photo, courses=teachers_lessons)
+
+    return redirect(url_for('home'))
+
+
+
 
 @app.route("/logout")
 def logout():
@@ -70,7 +90,9 @@ def all_list():
     if 'nick' in session:
         nick = session['nick'] 
         teacher = Teacher.query.filter_by(nick=nick).first()
-        return render_template("all_list.html", teacher=teacher)
+        teacher_id = teacher.id
+        teachers_lessons = db.session.query(Lesson.lesson_name, Lesson.period).join(Teacher).filter(Lesson.teacher_id == teacher_id).all()
+        return render_template("all_list.html", teacher=teacher,courses=teachers_lessons)
 
 
 @app.route("/calendar_detail")
@@ -78,15 +100,19 @@ def calendar_detail():
     if 'nick' in session:
         nick = session['nick'] 
         teacher = Teacher.query.filter_by(nick=nick).first()
-        return render_template("calendar_detail.html", teacher=teacher)
+        teacher_id = teacher.id
+        teachers_lessons = db.session.query(Lesson.lesson_name, Lesson.period).join(Teacher).filter(Lesson.teacher_id == teacher_id).all()
+        return render_template("calendar_detail.html", teacher=teacher,courses=teachers_lessons)
 
 
-@app.route("/course")
-def course():
+@app.route("/course/<lesson_name>")
+def course(lesson_name):
     if 'nick' in session:
         nick = session['nick'] 
         teacher = Teacher.query.filter_by(nick=nick).first()
-        return render_template("course.html", teacher=teacher)
+        teacher_id = teacher.id
+        teachers_lessons = db.session.query(Lesson.lesson_name, Lesson.period).join(Teacher).filter(Lesson.teacher_id == teacher_id).all()
+        return render_template("course.html", teacher=teacher,courses=teachers_lessons,  lesson_name=lesson_name)
 
 if __name__ == "__main__":
     
