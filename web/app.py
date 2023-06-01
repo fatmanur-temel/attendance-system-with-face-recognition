@@ -105,7 +105,7 @@ def calendar_detail():
         return render_template("calendar_detail.html", teacher=teacher,courses=teachers_lessons)
 
 
-@app.route("/course/<lesson_name>")
+@app.route('/course/<lesson_name>')
 def course(lesson_name):
     if 'nick' in session:
         nick = session['nick'] 
