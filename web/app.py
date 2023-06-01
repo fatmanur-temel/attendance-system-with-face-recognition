@@ -29,6 +29,25 @@ class Lesson(db.Model):
     period = db.Column(db.Integer)
     teacher_id = db.Column(db.Integer, db.ForeignKey('teacher.id'))
 
+class Ders1(db.Model):
+    __tablename__ = 'ders1'
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date)
+    student_no = db.Column(db.String)
+    student_name = db.Column(db.String)
+    student_surname = db.Column(db.String)
+
+class Student(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    student_no = db.Column(db.Integer)
+    photo = db.Column(db.String)
+    student_name = db.Column(db.String)
+    student_surname = db.Column(db.String)
+
+class LessonStudent(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    lesson_id = db.Column(db.Integer, db.ForeignKey('lesson.id'))
+    student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
 
 
 @app.route('/')
@@ -95,14 +114,57 @@ def all_list():
         return render_template("all_list.html", teacher=teacher,courses=teachers_lessons)
 
 
-@app.route("/calendar_detail")
+@app.route('/calendar_detail', methods=['POST'])
 def calendar_detail():
     if 'nick' in session:
         nick = session['nick'] 
         teacher = Teacher.query.filter_by(nick=nick).first()
         teacher_id = teacher.id
         teachers_lessons = db.session.query(Lesson.lesson_name, Lesson.period).join(Teacher).filter(Lesson.teacher_id == teacher_id).all()
-        return render_template("calendar_detail.html", teacher=teacher,courses=teachers_lessons)
+
+        date = request.form.get('date')
+
+        # lesson_id'si 1 olan öğrencilerin student_no değerlerini tutacak bir liste oluştur
+        lesson_id = 1
+        all_students = []
+        empty_students = []  # Gelmeyen öğrenci listesi
+
+        # Öğrencileri sorgula ve student_no değerlerini liste içine ekle
+        lesson_students = LessonStudent.query.filter_by(lesson_id=lesson_id).all()
+        for lesson_student in lesson_students:
+            student = Student.query.get(lesson_student.student_id)
+            all_students.append(student.student_no)
+
+        student_nos = []
+        # Kayıtları sorgula ve student_no değerlerini liste içine ekle
+        records = Ders1.query.filter_by(date=date).all()
+        for record in records:
+            student_nos.append(record.student_no)
+        # Öğrenci bilgilerini Ders1 tablosundan al
+        student_info = []
+        for student_no in student_nos:
+            record = Ders1.query.filter_by(student_no=student_no).first()
+            student_info.append({
+                'student_no': record.student_no,
+                'student_name': record.student_name,
+                'student_surname': record.student_surname
+            })
+
+        for student_no in all_students:
+            if student_no not in student_nos:
+                empty_students.append(student_no)
+
+        # Öğrenci bilgilerini Student tablosundan al
+        student_empty_info = []
+        for student_no in empty_students:
+            record = Student.query.filter_by(student_no=student_no).first()
+            student_empty_info.append({
+                'student_no': record.student_no,
+                'student_name': record.student_name,
+                'student_surname': record.student_surname
+            })
+
+        return render_template("calendar_detail.html", teacher=teacher,courses=teachers_lessons, student_info=student_info, student_empty_info=student_empty_info)
 
 
 @app.route('/course/<lesson_name>')

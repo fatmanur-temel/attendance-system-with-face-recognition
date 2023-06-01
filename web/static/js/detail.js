@@ -22,6 +22,17 @@ document.querySelectorAll('.table-head').forEach(function (tableHead) {
 // filtreleme işlemi
 ///////////////////////
 
+// Add active class to the current button (highlight it)
+const btnContainer = document.getElementById("BtnContainer");
+const btns = btnContainer.getElementsByClassName("filter-btn");
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function () {
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
+}
+
 filterSelection("all")
 function filterSelection(c) {
   var x, i;
@@ -59,15 +70,4 @@ function showStudentCount() {
   var showCount = document.querySelectorAll(".show");
   var element = document.getElementById("studentCount");
   element.innerHTML = showCount.length;
-}
-
-// Add active class to the current button (highlight it)
-const btnContainer = document.getElementById("BtnContainer");
-const btns = btnContainer.getElementsByClassName("filter-btn");
-for (var i = 0; i < btns.length; i++) {
-  btns[i].addEventListener("click", function () {
-    var current = document.getElementsByClassName("active");
-    current[0].className = current[0].className.replace(" active", "");
-    this.className += " active";
-  });
 }

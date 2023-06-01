@@ -20,7 +20,7 @@
 
 <body>
     <div class="navbar">
-        
+
         <a href="/home" class="logo">
             <img src="{{ url_for('static',filename='/../images/logo.png')}}" alt="logo">
         </a>
@@ -33,55 +33,60 @@
     <div class="sidebar">
         <ul>
             {% for course in courses %}
-          <li>
-            {% if course.period == 2 %}
-            <a href="#" id="class1" class="menu-btn">1. Sınıf
-                <span class="bi bi-chevron-right icon"></span>
-            </a>
-              <ul class="menu-show">
-                <li><a href="/course">{{ course.lesson_name }}</a></li>
-              </ul>
-            {% endif %}
-          </li>
-          <li>
-            {% if course.period == 4 %}
-            <a href="#" id="class2" class="menu-btn">2. Sınıf
-              <span class="bi bi-chevron-right icon"></span>
-            </a>
-            <ul class="menu-show">
-              <li><a href="#">{{ course.lesson_name }}</a></li>
-            </ul>
-            {% endif %}
-          </li>
-          <li>
-            {% if course.period == 6 %}
-            <a href="#" id="class3" class="menu-btn">3. Sınıf
-                <span class="bi bi-chevron-right icon"></span>
-              </a>
-              <ul class="menu-show">
-                <li><a href="#">{{ course.lesson_name }}</a></li>
-              </ul>
-              {% endif %}
-          </li>
-          <li>
-            {% if course.period == 8 %}
-            <a href="#" id="class4" class="menu-btn">4. Sınıf
-                <span class="bi bi-chevron-right icon"></span>
-              </a>
-              <ul class="menu-show">
-                <li><a href="#">{{ course.lesson_name }}</a></li>
-              </ul>
-              {% endif %}
-          </li>
-          {% endfor %}
+            <li>
+                {% if course.period == 2 %}
+                <a href="#" id="class1" class="menu-btn">1. Sınıf
+                    <span class="bi bi-chevron-right icon"></span>
+                </a>
+                <ul class="menu-show">
+                    <li><a href="{{ url_for('course', lesson_name=course.lesson_name) }}">{{ course.lesson_name }}</a>
+                    </li>
+                </ul>
+                {% endif %}
+            </li>
+            <li>
+                {% if course.period == 4 %}
+                <a href="#" id="class2" class="menu-btn">2. Sınıf
+                    <span class="bi bi-chevron-right icon"></span>
+                </a>
+                <ul class="menu-show">
+                    <li><a href="{{ url_for('course', lesson_name=course.lesson_name) }}">{{ course.lesson_name }}</a>
+                    </li>
+                </ul>
+                {% endif %}
+            </li>
+            <li>
+                {% if course.period == 6 %}
+                <a href="#" id="class3" class="menu-btn">3. Sınıf
+                    <span class="bi bi-chevron-right icon"></span>
+                </a>
+                <ul class="menu-show">
+                    <li><a href="{{ url_for('course', lesson_name=course.lesson_name) }}">{{ course.lesson_name }}</a>
+                    </li>
+                </ul>
+                {% endif %}
+            </li>
+            <li>
+                {% if course.period == 8 %}
+                <a href="#" id="class4" class="menu-btn">4. Sınıf
+                    <span class="bi bi-chevron-right icon"></span>
+                </a>
+                <ul class="menu-show">
+                    <li><a href="{{ url_for('course', lesson_name=course.lesson_name) }}">{{ course.lesson_name }}</a>
+                    </li>
+                </ul>
+                {% endif %}
+            </li>
+            {% endfor %}
         </ul>
     </div>
 
     <div class="main-page">
         <div class="title">
             <h1>
-                <span><a href="/course"><i class="bi bi-arrow-left-square-fill"></i></a> Ders 1</span>
-                <span class="full-date"></span>
+                <span><a href="#" onclick="goBack()"><i class="bi bi-arrow-left-square-fill"></i></a> Yoklama
+                    Listesi</span>
+                <span class="full-date" id="selectedDay"></span>
             </h1>
         </div>
         <div class="container-box">
@@ -118,60 +123,22 @@
                             Yoklama
                         </th>
                     </tr>
+                    {% for info in student_info %}
                     <tr class="item  gelenler">
-                        <td>123456</td>
-                        <td>Berglunds</td>
-                        <td>Sweden</td>
+                        <td>{{ info.student_no }}</td>
+                        <td>{{ info.student_name }}</td>
+                        <td>{{ info.student_surname }}</td>
                         <td><i class="bi bi-check2"></i></td>
                     </tr>
-                    <tr class="item  gelenler">
-                        <td>125489</td>
-                        <td>North/South</td>
-                        <td>UK</td>
-                        <td><i class="bi bi-check2"></i></td>
-                    </tr>
+                    {% endfor %}
+                    {% for info in student_empty_info %}
                     <tr class="item  gelmeyenler">
-                        <td>125846</td>
-                        <td>Alfreds</td>
-                        <td>Germany</td>
+                        <td>{{ info.student_no }}</td>
+                        <td>{{ info.student_name }}</td>
+                        <td>{{ info.student_surname }}</td>
                         <td><i class="bi bi-x"></i></td>
                     </tr>
-                    <tr class="item  gelenler">
-                        <td>453689</td>
-                        <td>Königlich</td>
-                        <td>Germany</td>
-                        <td><i class="bi bi-check2"></i></td>
-                    </tr>
-                    <tr class="item  gelmeyenler">
-                        <td>5678412</td>
-                        <td>Magazzini</td>
-                        <td>Italy</td>
-                        <td><i class="bi bi-x"></i></td>
-                    </tr>
-                    <tr class="item  gelmeyenler">
-                        <td>456987</td>
-                        <td>Paris</td>
-                        <td>France</td>
-                        <td><i class="bi bi-x"></i></td>
-                    </tr>
-                    <tr class="item  gelenler">
-                        <td>568741</td>
-                        <td>Island</td>
-                        <td>UK</td>
-                        <td><i class="bi bi-check2"></i></td>
-                    </tr>
-                    <tr class="item  gelenler">
-                        <td>365874</td>
-                        <td>Winecellars</td>
-                        <td>Canada</td>
-                        <td><i class="bi bi-check2"></i></td>
-                    </tr>
-                    <tr class="count">
-                        <td></td>
-                        <td></td>
-                        <td>Toplam Öğrenci Sayısı:</td>
-                        <td id="studentCount">5</td>
-                    </tr>
+                    {% endfor %}
                 </table>
             </div>
         </div>
@@ -186,9 +153,35 @@
 <script src="{{ url_for('static',filename='/../js/detail.js')}}"></script>
 
 <script>
-    const fullDate = document.querySelector(".full-date");
-    const options = {year: 'numeric', month: 'long', day: 'numeric' };
-    fullDate.innerText = new Date().toLocaleDateString('tr-TR', options);
+    let selectedDayEl = document.getElementById("selectedDay");
+
+    // URL'den "day" parametresini al
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedDay = urlParams.get('date');
+    // Seçili günü <span> içinde göster
+    selectedDayEl.innerText = selectedDay;
+
+    // GG/AA/YY formatındaki string'i YY-AA-GG formatında güncelle
+    var dayParts = selectedDay.split("/");
+    var date = dayParts[2] + "-" + dayParts[1] + "-" + dayParts[0];
+
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/calendar_detail";  // Flask uygulamanızdaki istekin yönlendirileceği URL
+
+    var input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "date";
+    input.value = date;
+
+    form.appendChild(input);
+    document.body.appendChild(form);
+
+    form.submit();
+
+    function goBack() {
+        window.history.back();
+    }
 </script>
 
 </html>
