@@ -118,56 +118,20 @@
                             </span>
                         </th>
                     </tr>
+                    {% for info in student_info %}
                     <tr class="item  gelenler">
-                        <td>123456</td>
-                        <td>Berglunds</td>
-                        <td>Sweden</td>
-                        <td>0</i></td>
+                        <td>{{ info.student_no }}</td>
+                        <td>{{ info.student_name }}</td>
+                        <td>{{ info.student_surname }}</td>
+                        <td>{{ info.student_count }}</td>
                     </tr>
-                    <tr class="item  gelenler">
-                        <td>125489</td>
-                        <td>North/South</td>
-                        <td>UK</td>
-                        <td>5</td>
-                    </tr>
-                    <tr class="item  gelmeyenler">
-                        <td>125846</td>
-                        <td>Alfreds</td>
-                        <td>Germany</td>
-                        <td>4</td>
-                    </tr>
-                    <tr class="item  gelenler">
-                        <td>453689</td>
-                        <td>Königlich</td>
-                        <td>Germany</td>
-                        <td>4</td>
-                    </tr>
-                    <tr class="item  gelmeyenler">
-                        <td>5678412</td>
-                        <td>Magazzini</td>
-                        <td>Italy</td>
-                        <td>0</td>
-                    </tr>
-                    <tr class="item  gelmeyenler">
-                        <td>456987</td>
-                        <td>Paris</td>
-                        <td>France</td>
-                        <td>1</td>
-                    </tr>
-                    <tr class="item  gelenler">
-                        <td>568741</td>
-                        <td>Island</td>
-                        <td>UK</td>
-                        <td>3</i></td>
-                    </tr>
-                    <tr class="item  gelenler">
-                        <td>365874</td>
-                        <td>Winecellars</td>
-                        <td>Canada</td>
-                        <td>1</i></td>
-                    </tr>
+                    {% endfor %}
+                    <tr></tr>
                     <tr class="count">
-                        <td></td>
+                        <td> Dersi Alan Öğrenci Sayısı: </td>
+                        <td> {{student_count}} </td>
+                        <td> İşlenen Ders Sayısı: </td>
+                        <td> {{count}} </td>
                     </tr>
                 </table>
             </div>

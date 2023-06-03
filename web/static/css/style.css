@@ -384,6 +384,7 @@ body,
     width: 100%;
     bottom: 10px;
     text-align: end;
+    margin: 25px 0 12px;
 }
 
 .button .btn {
@@ -440,8 +441,12 @@ body,
     border-bottom: 1px solid #ddd;
 }
 
+.table-box table .count tr{
+    background-color: #c4c4c4ad;
+}
+
 .table-box table .count td {
-    padding-top: 40px;
+    padding-top: 10px;
     border-bottom: none;
     color: #164773;
     font-weight: 600;

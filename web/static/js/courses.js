@@ -76,7 +76,7 @@ function getPoint(c1, c2, radius, angle) {
   return [c1 + Math.cos(angle) * radius, c2 + Math.sin(angle) * radius];
 }
 // Çizim fonksiyonu çalıştırılıyor.
-plotData();
+//plotData();
 
 
 /////////////////

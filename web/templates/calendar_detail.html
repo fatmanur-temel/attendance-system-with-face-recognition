@@ -147,7 +147,6 @@
     <div class="footer"></div>
 </body>
 
-<script src="{{ url_for('static',filename='/../js/jquery-3.4.1.min.js')}}"></script>
 <script src="https://www.w3schools.com/lib/w3.js"></script>
 <script src="{{ url_for('static',filename='/../js/utils.js')}}"></script>
 <script src="{{ url_for('static',filename='/../js/detail.js')}}"></script>
@@ -161,23 +160,6 @@
     // Seçili günü <span> içinde göster
     selectedDayEl.innerText = selectedDay;
 
-    // GG/AA/YY formatındaki string'i YY-AA-GG formatında güncelle
-    var dayParts = selectedDay.split("/");
-    var date = dayParts[2] + "-" + dayParts[1] + "-" + dayParts[0];
-
-    var form = document.createElement("form");
-    form.method = "POST";
-    form.action = "/calendar_detail";  // Flask uygulamanızdaki istekin yönlendirileceği URL
-
-    var input = document.createElement("input");
-    input.type = "hidden";
-    input.name = "date";
-    input.value = date;
-
-    form.appendChild(input);
-    document.body.appendChild(form);
-
-    form.submit();
 
     function goBack() {
         window.history.back();

@@ -42,7 +42,6 @@ function filterSelection(c) {
     RemoveClass(x[i], "show");
     if (x[i].className.indexOf(c) > -1) AddClass(x[i], "show");
   }
-  showStudentCount();
 }
 
 function AddClass(element, name) {
@@ -64,10 +63,4 @@ function RemoveClass(element, name) {
     }
   }
   element.className = arr1.join(" ");
-}
-
-function showStudentCount() {
-  var showCount = document.querySelectorAll(".show");
-  var element = document.getElementById("studentCount");
-  element.innerHTML = showCount.length;
 }

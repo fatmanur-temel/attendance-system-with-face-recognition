@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime, timedelta
 
 
 app = Flask(__name__)
@@ -48,6 +49,26 @@ class LessonStudent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     lesson_id = db.Column(db.Integer, db.ForeignKey('lesson.id'))
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
+
+
+def ders_count(start_date, end_date):
+    count = 0
+    current_date = start_date
+
+    # start_date'den end_date'e kadar döngü
+    while current_date <= end_date:
+        # Eğer gün Pazartesi ise count'u artır
+        if current_date.weekday() == 0:  # Pazartesi: 0, Salı: 1, ...
+            count += 1
+
+        # Bir gün ilerlet
+        current_date += timedelta(days=1)
+
+    return count
+
+# Başlangıç ve bitiş tarihlerini ayarla
+start_date = datetime(2023, 2, 27)
+end_date = datetime.now()
 
 
 @app.route('/')
@@ -111,10 +132,34 @@ def all_list():
         teacher = Teacher.query.filter_by(nick=nick).first()
         teacher_id = teacher.id
         teachers_lessons = db.session.query(Lesson.lesson_name, Lesson.period).join(Teacher).filter(Lesson.teacher_id == teacher_id).all()
-        return render_template("all_list.html", teacher=teacher,courses=teachers_lessons)
+
+        # Ders1 günü sayısını hesapla
+        count = ders_count(start_date, end_date)-1
+
+        #Öğrencilerin geldiği gün sayısını hesapla
+        student_count = {}
+
+        # Ders1 tablosundaki student_no değerlerinin tekrar sayısını hesapla
+        students = Ders1.query.with_entities(Ders1.student_no).all()
+        for student in students:
+            student_no = student.student_no
+            student_count[student_no] = student_count.get(student_no, 0) + 1
+
+        # Öğrenci bilgilerini Student tablosundan al
+        student_info = []
+        for student_no in student_count.keys():
+            record = Student.query.filter_by(student_no=student_no).first()
+            student_info.append({
+                'student_no': record.student_no,
+                'student_name': record.student_name,
+                'student_surname': record.student_surname,
+                'student_count': count-student_count[student_no]
+            })
+
+        return render_template("all_list.html", teacher=teacher,courses=teachers_lessons, student_info=student_info, student_count=len(student_count), count=count)
 
 
-@app.route('/calendar_detail', methods=['POST'])
+@app.route("/calendar_detail")
 def calendar_detail():
     if 'nick' in session:
         nick = session['nick'] 
@@ -122,7 +167,9 @@ def calendar_detail():
         teacher_id = teacher.id
         teachers_lessons = db.session.query(Lesson.lesson_name, Lesson.period).join(Teacher).filter(Lesson.teacher_id == teacher_id).all()
 
-        date = request.form.get('date')
+    
+        date = '2023-05-29'
+   
 
         # lesson_id'si 1 olan öğrencilerin student_no değerlerini tutacak bir liste oluştur
         lesson_id = 1
@@ -174,7 +221,24 @@ def course(lesson_name):
         teacher = Teacher.query.filter_by(nick=nick).first()
         teacher_id = teacher.id
         teachers_lessons = db.session.query(Lesson.lesson_name, Lesson.period).join(Teacher).filter(Lesson.teacher_id == teacher_id).all()
-        return render_template("course.html", teacher=teacher,courses=teachers_lessons,  lesson_name=lesson_name)
+
+        lesson_students = LessonStudent.query.filter_by(lesson_id=1).count()
+        # Ders1 günü sayısını hesapla
+        count = ders_count(start_date, end_date)-1
+
+        # Toplam ders sayısı ve öğrencilerin geldiği toplam gün sayısı veriler
+        total_lessons = count*lesson_students
+        attended_days = Ders1.query.with_entities(Ders1.student_no).count()
+
+        # Yüzdelik hesaplama
+        attendance_percentage = (attended_days / total_lessons) * 100
+
+        # Pasta grafiği için gerekli verileri hazırla
+        labels = ['Gelmeyenler', 'Gelenler']
+        colors = ['red', 'green']
+        sizes = [100 - attendance_percentage, attendance_percentage]
+
+        return render_template("course.html", teacher=teacher,courses=teachers_lessons,  lesson_name=lesson_name, labels=labels, colors=colors, sizes=sizes)
 
 if __name__ == "__main__":
     

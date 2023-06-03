@@ -14,19 +14,20 @@
   <!-- custom css -->
   <link rel="stylesheet" href="../static/css/style.css">
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <title>KTÜ Yoklama Sistemi</title>
 </head>
 
 <body>
   <div class="navbar">
-        
+
     <a href="/home" class="logo">
-        <img src="{{ url_for('static',filename='/../images/logo.png')}}" alt="logo">
+      <img src="{{ url_for('static',filename='/../images/logo.png')}}" alt="logo">
     </a>
     {% if teacher %}
     <a href="/logout" class="logout">
-        <img src="{{ url_for('static',filename='/../images/logout.png')}}" alt="Logout icon">
+      <img src="{{ url_for('static',filename='/../images/logout.png')}}" alt="Logout icon">
     </a>
     {% endif %}
   </div>
@@ -36,11 +37,11 @@
       <li>
         {% if course.period == 2 %}
         <a href="#" id="class1" class="menu-btn">1. Sınıf
-            <span class="bi bi-chevron-right icon"></span>
+          <span class="bi bi-chevron-right icon"></span>
         </a>
-          <ul class="menu-show">
-            <li><a href="{{ url_for('course', lesson_name=course.lesson_name) }}">{{ course.lesson_name }}</a></li>
-          </ul>
+        <ul class="menu-show">
+          <li><a href="{{ url_for('course', lesson_name=course.lesson_name) }}">{{ course.lesson_name }}</a></li>
+        </ul>
         {% endif %}
       </li>
       <li>
@@ -56,22 +57,22 @@
       <li>
         {% if course.period == 6 %}
         <a href="#" id="class3" class="menu-btn">3. Sınıf
-            <span class="bi bi-chevron-right icon"></span>
-          </a>
-          <ul class="menu-show">
-            <li><a href="{{ url_for('course', lesson_name=course.lesson_name) }}">{{ course.lesson_name }}</a></li>
-          </ul>
-          {% endif %}
+          <span class="bi bi-chevron-right icon"></span>
+        </a>
+        <ul class="menu-show">
+          <li><a href="{{ url_for('course', lesson_name=course.lesson_name) }}">{{ course.lesson_name }}</a></li>
+        </ul>
+        {% endif %}
       </li>
       <li>
         {% if course.period == 8 %}
         <a href="#" id="class4" class="menu-btn">4. Sınıf
-            <span class="bi bi-chevron-right icon"></span>
-          </a>
-          <ul class="menu-show">
-            <li><a href="{{ url_for('course', lesson_name=course.lesson_name) }}">{{ course.lesson_name }}</a></li>
-          </ul>
-          {% endif %}
+          <span class="bi bi-chevron-right icon"></span>
+        </a>
+        <ul class="menu-show">
+          <li><a href="{{ url_for('course', lesson_name=course.lesson_name) }}">{{ course.lesson_name }}</a></li>
+        </ul>
+        {% endif %}
       </li>
       {% endfor %}
     </ul>
@@ -111,18 +112,18 @@
             <h5>Yoklama İstatistiği</h5>
           </div>
           <div>
-            <canvas id="canvas" width="500" height="350">
+            <canvas id="myChart" width="500" height="350">
               Tarayıcı desteklemiyor.
             </canvas>
           </div>
           <div class="button">
             <a href="/all_list" class="btn"> Tüm Yoklama Listesi</a>
-          
+
           </div>
         </div>
       </div>
     </div>
-    
+
   </div>
 
   <div class="footer"></div>
@@ -140,6 +141,29 @@
     // Seçili tarihi calendar_detail sayfasına yönlendir
     window.location.href = `/calendar_detail?date=${fullDate}`;
   }
+</script>
+<script>
+  // Pasta grafiği için gerekli verileri Flask'dan al
+  var labels = {{ labels| tojson }};
+  var colors = {{ colors| tojson }};
+  var sizes = {{ sizes| tojson }};
+
+  // Pasta grafiğini oluştur
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: sizes,
+        backgroundColor: colors
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false
+    }
+  });
 </script>
 
 </html>
