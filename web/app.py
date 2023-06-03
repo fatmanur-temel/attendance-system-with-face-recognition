@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 
 
 app = Flask(__name__)
+app.config['DERS'] = None
 app.config['SECRET_KEY'] = "erawebsiteforuni"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost/attendance'
 db = SQLAlchemy(app)
@@ -32,6 +33,22 @@ class Lesson(db.Model):
 
 class Ders1(db.Model):
     __tablename__ = 'ders1'
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date)
+    student_no = db.Column(db.String)
+    student_name = db.Column(db.String)
+    student_surname = db.Column(db.String)
+
+class Ders2(db.Model):
+    __tablename__ = 'ders2'
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date)
+    student_no = db.Column(db.String)
+    student_name = db.Column(db.String)
+    student_surname = db.Column(db.String)
+
+class Ders3(db.Model):
+    __tablename__ = 'ders3'
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date)
     student_no = db.Column(db.String)
@@ -167,10 +184,21 @@ def calendar_detail():
         teacher_id = teacher.id
         teachers_lessons = db.session.query(Lesson.lesson_name, Lesson.period).join(Teacher).filter(Lesson.teacher_id == teacher_id).all()
 
-    
-        date = '2023-05-29'
+        # ders = session.get('ders')
+        # if not ders:
+        #     # Ders adı oturumda yoksa başka bir sayfaya yönlendir
+        #     return redirect(url_for('home'))
+        ders_name = app.config['DERS']
+        ders = globals()[ders_name]
    
+        date_str = request.url
+        date_parts = date_str.split("=")[1].split("/")  # "3/6/2023" bölümünü ayır
+        day = date_parts[0]
+        month = date_parts[1]
+        year = date_parts[2]
 
+        date = f"{year}-{month}-{day}"  # YYYY-MM-DD formatında tarih oluştur
+        print("date: "+date)
         # lesson_id'si 1 olan öğrencilerin student_no değerlerini tutacak bir liste oluştur
         lesson_id = 1
         all_students = []
@@ -184,13 +212,13 @@ def calendar_detail():
 
         student_nos = []
         # Kayıtları sorgula ve student_no değerlerini liste içine ekle
-        records = Ders1.query.filter_by(date=date).all()
+        records = ders.query.filter_by(date=date).all()
         for record in records:
             student_nos.append(record.student_no)
-        # Öğrenci bilgilerini Ders1 tablosundan al
+        # Öğrenci bilgilerini ders tablosundan al
         student_info = []
         for student_no in student_nos:
-            record = Ders1.query.filter_by(student_no=student_no).first()
+            record = ders.query.filter_by(student_no=student_no).first()
             student_info.append({
                 'student_no': record.student_no,
                 'student_name': record.student_name,
@@ -217,18 +245,26 @@ def calendar_detail():
 @app.route('/course/<lesson_name>')
 def course(lesson_name):
     if 'nick' in session:
-        nick = session['nick'] 
+        nick = session['nick']
+        #session içindeki öğretmenin derslerini al
         teacher = Teacher.query.filter_by(nick=nick).first()
         teacher_id = teacher.id
         teachers_lessons = db.session.query(Lesson.lesson_name, Lesson.period).join(Teacher).filter(Lesson.teacher_id == teacher_id).all()
+        #dersi alan öğrencilerin listesi
+        lesson_id = 1 
+        lesson_students = LessonStudent.query.filter_by(lesson_id=lesson_id).count()
 
-        lesson_students = LessonStudent.query.filter_by(lesson_id=1).count()
-        # Ders1 günü sayısını hesapla
+        # Ders adını al ve app.config üzerinde sakla
+        app.config['DERS'] = lesson_name
+        ders_name = app.config['DERS']
+        ders = globals()[ders_name]
+
+        # ders günü sayısını hesapla
         count = ders_count(start_date, end_date)-1
 
         # Toplam ders sayısı ve öğrencilerin geldiği toplam gün sayısı veriler
         total_lessons = count*lesson_students
-        attended_days = Ders1.query.with_entities(Ders1.student_no).count()
+        attended_days = ders.query.with_entities(ders.student_no).count()
 
         # Yüzdelik hesaplama
         attendance_percentage = (attended_days / total_lessons) * 100
