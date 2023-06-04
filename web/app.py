@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 app.config['DERS'] = None
 app.config['SECRET_KEY'] = "erawebsiteforuni"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost/attendance'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost/attendace'
 db = SQLAlchemy(app)
 
 
