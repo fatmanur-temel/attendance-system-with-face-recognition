@@ -109,7 +109,11 @@
 .submit:hover{
     background: #00406c;
     color: #fff;
-    /* text-decoration: underline; */
+}
+
+.alert{
+    margin-top: 1rem;
+    left: -14px;
 }
 
 @media only screen and (max-width: 768px){
