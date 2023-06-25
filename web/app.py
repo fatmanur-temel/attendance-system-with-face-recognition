@@ -68,6 +68,18 @@ class LessonStudent(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
 
 
+def get_lesson_id(lesson_name):
+    lesson_id = None
+    if lesson_name == "Ders1":
+        lesson_id = 1
+    elif lesson_name == "Ders2":
+        lesson_id = 2
+    elif lesson_name == "Ders3":
+        lesson_id = 3
+
+    return lesson_id
+
+
 def ders_count(start_date, end_date):
     count = 0
     current_date = start_date
@@ -150,14 +162,17 @@ def all_list():
         teacher_id = teacher.id
         teachers_lessons = db.session.query(Lesson.lesson_name, Lesson.period).join(Teacher).filter(Lesson.teacher_id == teacher_id).all()
 
-        # Ders1 günü sayısını hesapla
+        ders_name = app.config['DERS']
+        ders = globals()[ders_name]
+
+        # Ders günü sayısını hesapla
         count = ders_count(start_date, end_date)-1
 
         #Öğrencilerin geldiği gün sayısını hesapla
         student_count = {}
 
-        # Ders1 tablosundaki student_no değerlerinin tekrar sayısını hesapla
-        students = Ders1.query.with_entities(Ders1.student_no).all()
+        # Ders tablosundaki student_no değerlerinin tekrar sayısını hesapla
+        students = ders.query.with_entities(ders.student_no).all()
         for student in students:
             student_no = student.student_no
             student_count[student_no] = student_count.get(student_no, 0) + 1
@@ -176,6 +191,42 @@ def all_list():
         return render_template("all_list.html", teacher=teacher,courses=teachers_lessons, student_info=student_info, student_count=len(student_count), count=count)
 
 
+@app.route('/course/<lesson_name>')
+def course(lesson_name):
+    if 'nick' in session:
+        nick = session['nick']
+        #session içindeki öğretmenin derslerini al
+        teacher = Teacher.query.filter_by(nick=nick).first()
+        teacher_id = teacher.id
+        teachers_lessons = db.session.query(Lesson.lesson_name, Lesson.period).join(Teacher).filter(Lesson.teacher_id == teacher_id).all()
+        
+        #dersi alan öğrencilerin listesi
+        lesson_id = get_lesson_id(lesson_name)
+        lesson_students = LessonStudent.query.filter_by(lesson_id=lesson_id).count()
+
+        # Ders adını al ve app.config üzerinde sakla
+        app.config['DERS'] = lesson_name
+        ders_name = app.config['DERS']
+        ders = globals()[ders_name]
+
+        # ders günü sayısını hesapla
+        count = ders_count(start_date, end_date)-1
+
+        # Toplam ders sayısı ve öğrencilerin geldiği toplam gün sayısı veriler
+        total_lessons = count*lesson_students
+        attended_days = ders.query.with_entities(ders.student_no).count()
+
+        # Yüzdelik hesaplama
+        attendance_percentage = (attended_days / total_lessons) * 100
+
+        # Pasta grafiği için gerekli verileri hazırla
+        labels = ['Gelmeyenler', 'Gelenler']
+        colors = ['red', 'green']
+        sizes = [100 - attendance_percentage, attendance_percentage]
+
+        return render_template("course.html", teacher=teacher,courses=teachers_lessons,  lesson_name=lesson_name, labels=labels, colors=colors, sizes=sizes)
+    
+
 @app.route("/calendar_detail")
 def calendar_detail():
     if 'nick' in session:
@@ -184,23 +235,19 @@ def calendar_detail():
         teacher_id = teacher.id
         teachers_lessons = db.session.query(Lesson.lesson_name, Lesson.period).join(Teacher).filter(Lesson.teacher_id == teacher_id).all()
 
-        # ders = session.get('ders')
-        # if not ders:
-        #     # Ders adı oturumda yoksa başka bir sayfaya yönlendir
-        #     return redirect(url_for('home'))
         ders_name = app.config['DERS']
         ders = globals()[ders_name]
    
         date_str = request.url
-        date_parts = date_str.split("=")[1].split("/")  # "3/6/2023" bölümünü ayır
+        date_parts = date_str.split("=")[1].split("/")  # "D/M/Y" bölümünü ayır
         day = date_parts[0]
         month = date_parts[1]
         year = date_parts[2]
 
         date = f"{year}-{month}-{day}"  # YYYY-MM-DD formatında tarih oluştur
-        print("date: "+date)
-        # lesson_id'si 1 olan öğrencilerin student_no değerlerini tutacak bir liste oluştur
-        lesson_id = 1
+        
+        # lesson_id'sine göre öğrencilerin student_no değerlerini tutacak bir liste oluştur
+        lesson_id = get_lesson_id(ders_name)
         all_students = []
         empty_students = []  # Gelmeyen öğrenci listesi
 
@@ -215,6 +262,7 @@ def calendar_detail():
         records = ders.query.filter_by(date=date).all()
         for record in records:
             student_nos.append(record.student_no)
+            
         # Öğrenci bilgilerini ders tablosundan al
         student_info = []
         for student_no in student_nos:
@@ -241,40 +289,6 @@ def calendar_detail():
 
         return render_template("calendar_detail.html", teacher=teacher,courses=teachers_lessons, student_info=student_info, student_empty_info=student_empty_info)
 
-
-@app.route('/course/<lesson_name>')
-def course(lesson_name):
-    if 'nick' in session:
-        nick = session['nick']
-        #session içindeki öğretmenin derslerini al
-        teacher = Teacher.query.filter_by(nick=nick).first()
-        teacher_id = teacher.id
-        teachers_lessons = db.session.query(Lesson.lesson_name, Lesson.period).join(Teacher).filter(Lesson.teacher_id == teacher_id).all()
-        #dersi alan öğrencilerin listesi
-        lesson_id = 1 
-        lesson_students = LessonStudent.query.filter_by(lesson_id=lesson_id).count()
-
-        # Ders adını al ve app.config üzerinde sakla
-        app.config['DERS'] = lesson_name
-        ders_name = app.config['DERS']
-        ders = globals()[ders_name]
-
-        # ders günü sayısını hesapla
-        count = ders_count(start_date, end_date)-1
-
-        # Toplam ders sayısı ve öğrencilerin geldiği toplam gün sayısı veriler
-        total_lessons = count*lesson_students
-        attended_days = ders.query.with_entities(ders.student_no).count()
-
-        # Yüzdelik hesaplama
-        attendance_percentage = (attended_days / total_lessons) * 100
-
-        # Pasta grafiği için gerekli verileri hazırla
-        labels = ['Gelmeyenler', 'Gelenler']
-        colors = ['red', 'green']
-        sizes = [100 - attendance_percentage, attendance_percentage]
-
-        return render_template("course.html", teacher=teacher,courses=teachers_lessons,  lesson_name=lesson_name, labels=labels, colors=colors, sizes=sizes)
 
 if __name__ == "__main__":
     
