@@ -76,6 +76,20 @@ def get_lesson_id(lesson_name):
         lesson_id = 2
     elif lesson_name == "Ders3":
         lesson_id = 3
+    elif lesson_name == "Ders4":
+        lesson_id = 4
+    elif lesson_name == "Ders5":
+        lesson_id = 5
+    elif lesson_name == "Ders6":
+        lesson_id = 6
+    elif lesson_name == "Ders7":
+        lesson_id = 7
+    elif lesson_name == "Ders8":
+        lesson_id = 8
+    elif lesson_name == "Ders9":
+        lesson_id = 9
+    elif lesson_name == "Ders10":
+        lesson_id = 10
 
     return lesson_id
 
