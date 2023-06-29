@@ -7,7 +7,6 @@ import numpy as np
 
 class SimpleFacerec:
     def __init__(self):
-        #
         self.known_face_encodings = []
         self.known_face_names = []
 

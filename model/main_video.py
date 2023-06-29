@@ -2,10 +2,52 @@ import cv2
 from simple_facerec import SimpleFacerec
 from attendance import Attendance
 from register import Register
+import psycopg2
+import requests
+import tempfile
+import shutil
+from urllib.parse import urlparse
+import os
+
+conn = psycopg2.connect(
+    host="localhost",
+    database="attendance",
+    user="postgres",
+    password="123456"
+)
+
+# Veritabanı bağlantısını oluşturun
+cursor = conn.cursor()
+
+# Veritabanından fotoğraf URL'lerini çekme
+cursor.execute("SELECT photo FROM student")
+photo_urls = cursor.fetchall()
+
+# Geçici dosyaları tutmak için bir klasör oluşturun
+temp_dir = tempfile.mkdtemp()
+
+# Fotoğrafları indirip geçici dosyalara kaydedin
+for url in photo_urls:
+    # URL'den dosya adını alma
+    parsed_url = urlparse(url[0])
+    filename = os.path.basename(parsed_url.path)
+
+    # Geçici dosya yolu
+    temp_file_path = os.path.join(temp_dir, filename)
+
+    response = requests.get(url[0])
+    response.raise_for_status()
+
+    # Dosyayı geçici klasöre kaydetme
+    with open(temp_file_path, "wb") as file:
+        file.write(response.content)
+
+    # İndirilen dosyanın yolunu yazdırma
+    print("Downloaded image:", temp_file_path)
 
 # Encode faces from a folder
 sfr = SimpleFacerec()
-sfr.load_encoding_images("images/")
+sfr.load_encoding_images(temp_dir)
 
 # Encode attendance file
 atd = Attendance()
@@ -45,6 +87,11 @@ while True:
 
 atd.create_excel(file_name)
 
+# Geçici klasörü silme
+shutil.rmtree(temp_dir)
+
 cap.release()
 cv2.destroyAllWindows()
 
+# Veritabanı bağlantısını kapatma
+conn.close()
