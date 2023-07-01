@@ -50,8 +50,7 @@ sfr.load_encoding_images(temp_dir)
 
 # Encode attendance file
 atd = Attendance()
-atd.__int__("Matemetik")
-file_name = atd.create_file()
+atd.__int__(conn)
 
 reg = Register()
 
@@ -75,16 +74,13 @@ while True:
 
 
         if name != 'Unknown':
-            atd.create_attendance(name, file_name, frame)
+            atd.create_attendance(name)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         reg.create_window(frame)
 
     if cv2.waitKey(1) == ord('e'):
         break
-
-
-atd.create_excel(file_name)
 
 # Geçici klasörü silme
 shutil.rmtree(temp_dir)
