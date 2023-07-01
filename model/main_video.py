@@ -6,7 +6,7 @@ import psycopg2
 import requests
 import tempfile
 import shutil
-from urllib.parse import urlparse
+from urllib.parse import unquote
 import os
 
 conn = psycopg2.connect(
@@ -29,8 +29,7 @@ temp_dir = tempfile.mkdtemp()
 # Fotoğrafları indirip geçici dosyalara kaydedin
 for url in photo_urls:
     # URL'den dosya adını alma
-    parsed_url = urlparse(url[0])
-    filename = os.path.basename(parsed_url.path)
+    filename = unquote(url[0].split("/")[-1])
 
     # Geçici dosya yolu
     temp_file_path = os.path.join(temp_dir, filename)
