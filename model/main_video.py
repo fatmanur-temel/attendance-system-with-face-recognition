@@ -51,6 +51,8 @@ sfr.load_encoding_images(temp_dir)
 # Encode attendance file
 atd = Attendance()
 atd.__int__(conn)
+lesson_name = atd.get_lesson_name()
+print(lesson_name)
 
 reg = Register()
 
@@ -74,7 +76,7 @@ while True:
 
 
         if name != 'Unknown':
-            atd.create_attendance(name)
+            atd.create_attendance(name,lesson_name)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         reg.create_window(frame)
