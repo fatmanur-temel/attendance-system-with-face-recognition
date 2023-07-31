@@ -11,7 +11,7 @@ import os
 
 conn = psycopg2.connect(
     host="localhost",
-    database="attendance",
+    database="attendace",
     user="postgres",
     password="123456"
 )
@@ -34,6 +34,7 @@ for url in photo_urls:
     # Geçici dosya yolu
     temp_file_path = os.path.join(temp_dir, filename)
 
+    #url'in doğruluğunu komtrol etmek için HTTTPerror kontrolü'
     response = requests.get(url[0])
     response.raise_for_status()
 

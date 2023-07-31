@@ -8,7 +8,7 @@ class Attendance:
 
     def get_lesson_name(self):
         # O anki güncel gün ve saat bilgisi
-        current_day = datetime.datetime.today().weekday() + 1  # Haftanın günleri 0'dan başladığı için +1 ekliyoruz
+        current_day = datetime.datetime.today().weekday() + 1
         current_time = datetime.datetime.now().time()
 
         # Veritabanı bağlantısını oluşturun

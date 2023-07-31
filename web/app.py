@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 
 
 app = Flask(__name__)
-app.config['DERS'] = None
-app.config['SECRET_KEY'] = "erawebsiteforuni"
+app.config['DERS'] = None #global değişken
+app.config['SECRET_KEY'] = "erawebsiteforuni" # flask veri güvenliği
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost/attendace'
 db = SQLAlchemy(app)
 
@@ -22,7 +22,7 @@ class Teacher(db.Model):
     faculty = db.Column(db.String)
     department = db.Column(db.String)
     photo = db.Column(db.String)
-    courses = db.relationship('Lesson', backref='teacher', lazy=True)
+    courses = db.relationship('Lesson', backref='teacher', lazy=True) #ilişkili nesneler yalnızca erişildiğinde yüklenir bu sayede performansta iyileşme sağlanır
 
 class Lesson(db.Model):
     __tablename__ = 'lesson'
@@ -55,6 +55,22 @@ class Ders3(db.Model):
     student_name = db.Column(db.String)
     student_surname = db.Column(db.String)
 
+class Ders4(db.Model):
+    __tablename__ = 'ders4'
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date)
+    student_no = db.Column(db.String)
+    student_name = db.Column(db.String)
+    student_surname = db.Column(db.String)
+    
+class Ders5(db.Model):
+    __tablename__ = 'ders5'
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date)
+    student_no = db.Column(db.String)
+    student_name = db.Column(db.String)
+    student_surname = db.Column(db.String)
+
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     student_no = db.Column(db.Integer)
@@ -66,6 +82,16 @@ class LessonStudent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     lesson_id = db.Column(db.Integer, db.ForeignKey('lesson.id'))
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
+
+#ders sayısını hesapladığımız fonk. start end date alır
+today = datetime.now().date()
+target_date = datetime(2023, 7, 11).date()
+
+start_date = datetime(2023, 2, 27)
+if today > target_date:
+    end_date = datetime(target_date.year, target_date.month, target_date.day)
+else:
+    end_date = datetime.now()
 
 
 def get_lesson_id(lesson_name):
@@ -157,7 +183,7 @@ def home():
                                name=teacher.name, surname=teacher.surname, email=teacher.email, tel=teacher.tel, 
                                faculty=teacher.faculty, department=teacher.department, photo=teacher.photo, courses=teachers_lessons)
 
-    return redirect(url_for('home'))
+    return redirect(url_for('login'))
 
 
 
@@ -253,7 +279,8 @@ def calendar_detail():
         ders = globals()[ders_name]
    
         date_str = request.url
-        date_parts = date_str.split("=")[1].split("/")  # "D/M/Y" bölümünü ayır
+        date_parts = date_str.split("=")[1].split("%2F")  # "D/M/Y" bölümünü ayır
+        print(date_parts)
         day = date_parts[0]
         month = date_parts[1]
         year = date_parts[2]
